@@ -6,7 +6,7 @@ public class RayCreator : MonoBehaviour
     [SerializeField] private LayerMask _cubeLayer;
     [SerializeField] private float _rayDirection;
 
-    public event Action OnCubeClicked;
+    public event Action<Cube> OnCubeClicked;
 
     private void Update()
     {
@@ -16,8 +16,8 @@ public class RayCreator : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Mouse0))
             {
+                OnCubeClicked?.Invoke(_hit.transform.GetComponent<Cube>());
                 Destroy(_hit.transform.gameObject);
-                OnCubeClicked?.Invoke();
             }
         }
     }
