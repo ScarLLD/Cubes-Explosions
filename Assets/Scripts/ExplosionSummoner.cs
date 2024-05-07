@@ -1,25 +1,29 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class ExplosionSummoner : MonoBehaviour
 {
-    [SerializeField] private CubesSpawner spawner;
+    [SerializeField] private CubesSpawner _spawner;
     [SerializeField] private int explosionForce;
     [SerializeField] private int explosionRadius;
 
     private void OnEnable()
     {
-        spawner.CubeSpawned += SummonExplosion;
+        _spawner.CubesGenerated += SummonExplosion;
     }
 
     private void OnDisable()
     {
-        spawner.CubeSpawned -= SummonExplosion;
+        _spawner.CubesGenerated -= SummonExplosion;
     }
 
-    public void SummonExplosion(Cube cube)
+    private void SummonExplosion(Vector3 explosionPosition, List<Cube> cubes)
     {
-        cube.AddComponent<Rigidbody>().AddExplosionForce
-            (explosionForce, cube.transform.position, explosionRadius, 1f, ForceMode.Impulse);
+        for (int i = 0; i < cubes.Count; i++)
+        {
+            cubes[i].AddComponent<Rigidbody>().AddExplosionForce
+            (explosionForce, explosionPosition, explosionRadius, 10, ForceMode.Impulse);
+        }
     }
 }
