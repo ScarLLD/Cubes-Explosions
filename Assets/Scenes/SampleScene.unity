@@ -902,8 +902,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawner: {fileID: 1976648332}
-  _explosionForce: 5
-  _explosionRadius: 0
+  _explosionForce: 220
+  _explosionRadius: 25
 --- !u!114 &1976648335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -929,12 +929,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bb1b463631a144d8f473a879e631c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minXPos: -4
-  _maxXPos: 4
-  _minYPos: 1
-  _maxYPos: 4
-  _minZPos: -4
-  _maxZPos: 4
+  _maxPos: 0.5
+  _minPos: -0.5
 --- !u!1001 &2340071166191341595
 PrefabInstance:
   m_ObjectHideFlags: 0

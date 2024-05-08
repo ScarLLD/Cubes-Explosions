@@ -26,7 +26,7 @@ public class CubesSpawner : MonoBehaviour
     {
         if (cube.TryDivide())
         {
-            int cubesCount = Random.Range(0, _maxCubesCount);
+            int cubesCount = Random.Range(_minCubesCount, _maxCubesCount);
             _cubes.Clear();
 
             for (int i = 0; i < cubesCount; i++)
@@ -40,13 +40,11 @@ public class CubesSpawner : MonoBehaviour
 
     private void SpawnCube(Cube tempCube)
     {
-        if (_positionRandomizer.TryGetPosition(tempCube, out Vector3 randomPosition))
-        {
-            Cube cube = Instantiate(_cubePrefab, randomPosition, Quaternion.identity, _cubesParent);
-            cube.transform.localScale = tempCube.transform.localScale / _scaleDivider;
+        Cube cube = Instantiate(_cubePrefab, 
+            _positionRandomizer.GetPosition(tempCube, _scaleDivider), Quaternion.identity, _cubesParent);
+        cube.transform.localScale = tempCube.transform.localScale / _scaleDivider;
 
-            _cubes.Add(cube);
-            CubeSpawned?.Invoke(cube);
-        }
+        _cubes.Add(cube);
+        CubeSpawned?.Invoke(cube);
     }
 }

@@ -22,7 +22,7 @@ public class ExplosionSummoner : MonoBehaviour
         for (int i = 0; i < cubes.Count; i++)
         {
             cubes[i].Rigidbody.AddExplosionForce
-            (_explosionForce, explosionPosition, _explosionRadius, 10, ForceMode.Impulse);
+            (_explosionForce, explosionPosition, _explosionRadius);
         }
     }
 }
