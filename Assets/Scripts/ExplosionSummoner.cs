@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ExplosionSummoner : MonoBehaviour
 {
     [SerializeField] private CubesSpawner _spawner;
-    [SerializeField] private int explosionForce;
-    [SerializeField] private int explosionRadius;
+    [SerializeField] private int _explosionForce;
+    [SerializeField] private int _explosionRadius;
 
     private void OnEnable()
     {
@@ -22,8 +21,8 @@ public class ExplosionSummoner : MonoBehaviour
     {
         for (int i = 0; i < cubes.Count; i++)
         {
-            cubes[i].AddComponent<Rigidbody>().AddExplosionForce
-            (explosionForce, explosionPosition, explosionRadius, 10, ForceMode.Impulse);
+            cubes[i].Rigidbody.AddExplosionForce
+            (_explosionForce, explosionPosition, _explosionRadius, 10, ForceMode.Impulse);
         }
     }
 }

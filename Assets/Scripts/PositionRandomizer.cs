@@ -9,6 +9,8 @@ public class PositionRandomizer : MonoBehaviour
     [SerializeField] private float _minZPos;
     [SerializeField] private float _maxZPos;
 
+    private Collider[] _colliders;
+
     public bool TryGetPosition(Cube cube, out Vector3 tempPosition)
     {
         tempPosition = Vector3.zero;
@@ -18,7 +20,7 @@ public class PositionRandomizer : MonoBehaviour
             Random.Range(_minYPos, _maxYPos),
             Random.Range(_minZPos, _maxZPos));
 
-        if (Physics.OverlapBox(randomPosition, cube.transform.localScale / 2).Length == 0)
+        if (Physics.OverlapBoxNonAlloc(randomPosition, cube.transform.localScale / 2, _colliders) == 0)
             tempPosition = randomPosition;
 
         return tempPosition != Vector3.zero;

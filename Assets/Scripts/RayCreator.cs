@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class RayCreator : MonoBehaviour
 {
+    [SerializeField] private Camera _mainCamera;
     [SerializeField] private CubesSpawner _spawner;
     [SerializeField] private LayerMask _cubeLayer;
     [SerializeField] private float _rayDirection;
 
     private void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray.origin, ray.direction,
-            out RaycastHit _hit, _rayDirection, _cubeLayer))
+        if (Input.GetKey(KeyCode.Mouse0)
+            && Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, _rayDirection, _cubeLayer)
+            && hit.transform.TryGetComponent(out Cube cube))
         {
-            if (Input.GetKey(KeyCode.Mouse0) && _hit.transform.TryGetComponent(out Cube cube))
-            {
-                _spawner.GenerateCubes(cube);
-                Destroy(cube.gameObject);
-            }
+            _spawner.GenerateCubes(cube);
+            Destroy(cube.gameObject);
         }
+
     }
 }

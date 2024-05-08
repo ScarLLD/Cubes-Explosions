@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class ColorRandomizer : MonoBehaviour
 {
-    [SerializeField] private CubesSpawner spawner;
+    [SerializeField] private CubesSpawner _spawner;
 
     private void OnEnable()
     {
-        spawner.CubeSpawned += SetColor;
+        _spawner.CubeSpawned += SetColor;
     }
 
     private void OnDisable()
     {
-        spawner.CubeSpawned -= SetColor;
+        _spawner.CubeSpawned -= SetColor;
     }
 
     private void SetColor(Cube cube)
     {
-        cube.GetComponent<Renderer>().material.color = Random.ColorHSV();
+        cube.Renderer.material.color = Random.ColorHSV();
     }
 }
