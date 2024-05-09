@@ -6,20 +6,20 @@ using Random = UnityEngine.Random;
 public class CubesSpawner : MonoBehaviour
 {
     [SerializeField] private PositionRandomizer _positionRandomizer;
-    [SerializeField] private Cube _cubePrefab;
     [SerializeField] private Transform _cubesParent;
+    [SerializeField] private CubePool _cubePool;
     [SerializeField] private float _scaleDivider;
     [SerializeField] private int _minCubesCount;
     [SerializeField] private int _maxCubesCount;
 
-    private List<Cube> _cubes;
+    private List<Cube> _tempCubes;
 
     public event Action<Cube> CubeSpawned;
-    public event Action<Vector3, List<Cube>> CubesGenerated;
+    public event Action<Cube, List<Cube>> CubesGenerated;
 
     private void Awake()
     {
-        _cubes = new List<Cube>();
+        _tempCubes = new List<Cube>();
     }
 
     public void GenerateCubes(Cube cube)
@@ -27,25 +27,28 @@ public class CubesSpawner : MonoBehaviour
         if (cube.TryDivide())
         {
             int cubesCount = Random.Range(_minCubesCount, _maxCubesCount);
-            _cubes.Clear();
 
             for (int i = 0; i < cubesCount; i++)
             {
                 SpawnCube(cube);
             }
-
-            CubesGenerated?.Invoke(cube.transform.position, _cubes);
         }
+
+        CubesGenerated?.Invoke(cube, _tempCubes);
+
+        _tempCubes.Clear();
     }
 
     private void SpawnCube(Cube tempCube)
     {
-        Cube cube = Instantiate(_cubePrefab,
-            _positionRandomizer.GetPosition(tempCube, _scaleDivider), Quaternion.identity, _cubesParent);
+        Cube cube = _cubePool.GetCube();
+        cube.Init(tempCube.CurrentSeparationPersent, tempCube.GetReductionsNumber);
+        cube.transform.parent = _cubesParent;
+        cube.transform.position = _positionRandomizer.GetPosition(tempCube, _scaleDivider);
         cube.transform.localScale = tempCube.transform.localScale / _scaleDivider;
-        cube.InitSeparationPersent(tempCube.CurrentSeparationPersent);
+        cube.gameObject.SetActive(true);
 
-        _cubes.Add(cube);
+        _tempCubes.Add(cube);
         CubeSpawned?.Invoke(cube);
     }
 }

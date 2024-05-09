@@ -3,6 +3,7 @@ using UnityEngine;
 public class RayCreator : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
+    [SerializeField] private CubePool _cubePool;
     [SerializeField] private CubesSpawner _spawner;
     [SerializeField] private LayerMask _cubeLayer;
     [SerializeField] private float _rayDirection;
@@ -12,11 +13,12 @@ public class RayCreator : MonoBehaviour
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Input.GetKeyUp(KeyCode.Mouse0)
-            && Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, _rayDirection, _cubeLayer)
+            && Physics.Raycast(ray.origin, ray.direction, 
+            out RaycastHit hit, _rayDirection, _cubeLayer)
             && hit.transform.TryGetComponent(out Cube cube))
         {
+            _cubePool.PutCube(cube);
             _spawner.GenerateCubes(cube);
-            Destroy(cube.gameObject);
         }
     }
 }
