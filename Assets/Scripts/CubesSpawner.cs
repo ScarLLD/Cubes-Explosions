@@ -40,9 +40,10 @@ public class CubesSpawner : MonoBehaviour
 
     private void SpawnCube(Cube tempCube)
     {
-        Cube cube = Instantiate(_cubePrefab, 
+        Cube cube = Instantiate(_cubePrefab,
             _positionRandomizer.GetPosition(tempCube, _scaleDivider), Quaternion.identity, _cubesParent);
         cube.transform.localScale = tempCube.transform.localScale / _scaleDivider;
+        cube.InitSeparationPersent(tempCube.CurrentSeparationPersent);
 
         _cubes.Add(cube);
         CubeSpawned?.Invoke(cube);

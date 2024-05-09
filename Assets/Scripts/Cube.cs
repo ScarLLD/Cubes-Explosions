@@ -5,24 +5,30 @@ public class Cube : MonoBehaviour
     [SerializeField] private float _maxSeparationPersent;
     [SerializeField] private float _divider;
 
-    private float _currentSeparationPersent;
+    private Renderer _renderer;
 
-    public Renderer Renderer { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
+    public float CurrentSeparationPersent { get; private set; }
 
     private void Awake()
     {
-        Renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
         Rigidbody = GetComponent<Rigidbody>();
 
-        _currentSeparationPersent = _maxSeparationPersent;
+        _renderer.material.color = Random.ColorHSV();
+        CurrentSeparationPersent = _maxSeparationPersent;
+    }
+
+    public void InitSeparationPersent(float currentSeparationPersent)
+    {
+        CurrentSeparationPersent = currentSeparationPersent;
     }
 
     public bool TryDivide()
     {
-        if (Random.Range(0, _maxSeparationPersent) <= _currentSeparationPersent)
+        if (Random.Range(0, _maxSeparationPersent) <= CurrentSeparationPersent)
         {
-            _currentSeparationPersent /= _divider;
+            CurrentSeparationPersent /= _divider;
             return true;
         }
 

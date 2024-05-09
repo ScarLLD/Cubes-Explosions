@@ -147,4 +147,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxSeparationPersent: 100
-  _separationDivider: 2
+  _divider: 2
